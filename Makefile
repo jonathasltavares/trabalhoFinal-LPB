@@ -1,6 +1,6 @@
-all:	programa.exe
-programa.exe:	main.o	pgm.o	lbp.o
-	gcc	-o	programa.exe	main.o	pgm.o	lbp.o
+all:	programa.e
+programa.e:	main.o	pgm.o	lbp.o
+	gcc	-o	programa.e	main.o	pgm.o	lbp.o -lm
 main.o:	main.c
 	gcc	-o	main.o	-c	main.c
 pgm.o:	pgm.c
@@ -8,6 +8,6 @@ pgm.o:	pgm.c
 lbp.o:	lbp.c
 	gcc	-o	lbp.o	-c	lbp.c
 run:
-	./programa.exe
+	./programa.e
 clean:
 	rm	-rf	*.o

@@ -1,6 +1,11 @@
 #include "lbp.h"
 
-void gerarBinarios(unsigned char *ma, char b[][9], int l, int c){
+void gerarBinarios(unsigned char *ma, int l, int c, int *d){
+  char **b;
+  b = malloc(sizeof(char*)*(l*c));
+  for(int i =0;i<(l*c);i++){
+    b[i]=malloc(sizeof(char)*9);
+  }
     for(int i=0;i<((l*c));i++){  
         //bordas laterais esquerda
         if(i%c == 0){
@@ -175,20 +180,45 @@ void gerarBinarios(unsigned char *ma, char b[][9], int l, int c){
             
         } 
     }
+     for(int i=0;i<((c*l)-1);i++){
+         int aux = 0;
+         for(int j=0; j<8;j++){
+             if(b[i][j] == '1'){
+                 aux += pow(2, j);
+             }          
+         }  
+         *(d+i) = aux;
+     }
+  for(int i=0;i<l*c;i++){
+    free(b[i]);
+  }
+free(b); 
 }
 
-void binParaDec(char a[][9], int l, int c, int *d){
-    for(int i=0;i<=((c*l)-1);i++){
-        int aux = 0;
-        for(int j=0; j<=8;j++){
-            if(a[i][j] == '1'){
-                aux += pow(2, j);
-            }          
-        }  
-        *(d+i) = aux;
-    }
-}
+void verificar(char tipo[2], int *listaNumerica, int range, int rows, int cols, FILE *hFile){
+  int i, j;
+  unsigned short int k = 0;
+  unsigned int freq = 0;
+  int posicao;
 
-void histograma(){
+  for (k=0; k<256; k++) {
+		freq = 0;
+
+		for (i=0; i<(rows-2); i++) {
+			for (j=0; j<(cols-2); j++) {
+				if (*(listaNumerica+(i*cols)+j) == k) {
+					freq++;
+				}
+			}
+		}
+
+		if (freq == 0) {
+			continue;
+		}
+
+		fprintf(hFile, "%d, ", freq);
     
+	}
+    fprintf(hFile, "%s", &tipo[0]);
+    fprintf(hFile, "\n");
 }

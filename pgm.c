@@ -53,35 +53,3 @@ void readPGMImage(struct pgm *pio, char *filename){
 	fclose(fp);
 
 }
-
-void writePGMImage(struct pgm *pio, char *filename){
-	FILE *fp;
-	char ch;
-
-	if (!(fp = fopen(filename,"wb"))){
-		perror("Erro.");
-		exit(1);
-	}
-
-	fprintf(fp, "%s\n","P5");
-	fprintf(fp, "%d %d\n",pio->c, pio->r);
-	fprintf(fp, "%d\n", 255);
-
-	fwrite(pio->pData, sizeof(unsigned char),pio->c * pio->r, fp);
-
-	fclose(fp);
-
-}
-
-
-void viewPGMImage(struct pgm *pio){
-	printf("Tipo: %d\n",pio->tipo);
-	printf("Dimensões: [%d %d]\n",pio->c, pio->r);
-	printf("Max: %d\n",pio->mv);
-
-	for (int k=0; k < (pio->r * pio->c); k++){
-		if (!( k % pio->c)) printf("\n");
-		printf("%2hhu ",*(pio->pData+k));
-	}	
-	printf("\n");
-}
